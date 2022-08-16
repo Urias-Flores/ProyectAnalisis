@@ -109,7 +109,6 @@ namespace ProyectAnalisis.Views
             {
                 var ben = from b in db.Beneficiario select b;
                 Pane.Controls.Clear();
-                Console.WriteLine("Se probo: " + txtBuscar.Text + " \n");
                 ben.ToList().ForEach(b => {
                     if (b.Nombre.Contains(txtBuscar.Text)) {
                         UserControl uc = Components.Components.getPanelBeneficiario(b.Nombre, b.Documento, b.Telefono, b.CorreoElectronico);

@@ -61,7 +61,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(280, 723);
+            this.panel1.Size = new System.Drawing.Size(280, 776);
             this.panel1.TabIndex = 0;
             // 
             // subMenuAdministracion
@@ -214,7 +214,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(280, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1302, 140);
+            this.panel2.Size = new System.Drawing.Size(1338, 140);
             this.panel2.TabIndex = 2;
             // 
             // pictureBox1
@@ -234,14 +234,14 @@
             this.LoadPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LoadPanel.Location = new System.Drawing.Point(280, 140);
             this.LoadPanel.Name = "LoadPanel";
-            this.LoadPanel.Size = new System.Drawing.Size(1302, 583);
+            this.LoadPanel.Size = new System.Drawing.Size(1338, 636);
             this.LoadPanel.TabIndex = 0;
             // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1582, 723);
+            this.ClientSize = new System.Drawing.Size(1618, 776);
             this.Controls.Add(this.LoadPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
