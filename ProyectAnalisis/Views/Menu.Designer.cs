@@ -235,7 +235,7 @@
             this.LoadPanel.Location = new System.Drawing.Point(280, 140);
             this.LoadPanel.Name = "LoadPanel";
             this.LoadPanel.Size = new System.Drawing.Size(1302, 583);
-            this.LoadPanel.TabIndex = 3;
+            this.LoadPanel.TabIndex = 0;
             // 
             // Menu
             // 
@@ -249,6 +249,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "USAID | Inicio";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Menu_FormClosing);
             this.Load += new System.EventHandler(this.Menu_Load);
             this.panel1.ResumeLayout(false);
             this.subMenuAdministracion.ResumeLayout(false);

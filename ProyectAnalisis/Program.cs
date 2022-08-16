@@ -23,7 +23,7 @@ namespace ProyectAnalisis
 
             if (conec.getConec() != null)
             {
-                Application.Run(new LogIn());
+                Application.Run(new Menu());
             }
             else {
                 MessageBox.Show("Conexion no establecida", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Warning);

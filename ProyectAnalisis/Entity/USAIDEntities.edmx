@@ -1,0 +1,803 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="USAIDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Beneficiario">
+          <Key>
+            <PropertyRef Name="BenficiarioID" />
+          </Key>
+          <Property Name="BenficiarioID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Documento" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Sexo" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="DepartamentoID" Type="int" Nullable="false" />
+          <Property Name="MunicipioID" Type="int" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="DepartamentoID" />
+          </Key>
+          <Property Name="DepartamentoID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="EmpleadoID" />
+          </Key>
+          <Property Name="EmpleadoID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Documento" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="TipoDocumento" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="NumeroTelefono" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Sexo" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="DepartamentoID" Type="int" Nullable="false" />
+          <Property Name="MunicipioID" Type="int" Nullable="false" />
+          <Property Name="Domicilio" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modulo">
+          <Key>
+            <PropertyRef Name="ModuloID" />
+          </Key>
+          <Property Name="ModuloID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="MunicipioID" />
+            <PropertyRef Name="DepartamentoID" />
+          </Key>
+          <Property Name="MunicipioID" Type="int" Nullable="false" />
+          <Property Name="DepartamentoID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServicioFormacion">
+          <Key>
+            <PropertyRef Name="ServicioFormacionID" />
+          </Key>
+          <Property Name="ServicioFormacionID" Type="int" Nullable="false" />
+          <Property Name="ModuloID" Type="int" Nullable="false" />
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="DepartamentoID" Type="int" Nullable="false" />
+          <Property Name="MunicipioID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="FechaInicio" Type="date" Nullable="false" />
+          <Property Name="FechaFinal" Type="date" Nullable="false" />
+          <Property Name="Modalidad" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="300" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="EmpleadoID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="Acceso" Type="varchar" MaxLength="4" />
+          <Property Name="Token" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="Beneficiario_MunicipioID">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="Beneficiario" Type="Self.Beneficiario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="Beneficiario">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Beneficiario_UsuarioID">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Beneficiario" Type="Self.Beneficiario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="Beneficiario">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Empleados_MunicipioID">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="Empleados">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Municipio_DepartamentoID">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServicioFormacion_ModuloID">
+          <End Role="Modulo" Type="Self.Modulo" Multiplicity="1" />
+          <End Role="ServicioFormacion" Type="Self.ServicioFormacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="ModuloID" />
+            </Principal>
+            <Dependent Role="ServicioFormacion">
+              <PropertyRef Name="ModuloID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServicioFormacion_MunicipioID">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="ServicioFormacion" Type="Self.ServicioFormacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="ServicioFormacion">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServicioFormacion_UsuarioID">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="ServicioFormacion" Type="Self.ServicioFormacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="ServicioFormacion">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Usuario_EmpleadoID">
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="EmpleadoID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="EmpleadoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="BeneficiarioAnio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="year" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BeneficiarioCiudad" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="BeneficiarioSemestral" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="sem" Type="int" Mode="In" />
+        </Function>
+        <Function Name="BeneficiariosUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="month" Type="int" Mode="In" />
+        </Function>
+        <Function Name="psBeneficiarios" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="psEmpleados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="psServicioFormacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="psUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="USAIDModelStoreContainer">
+          <EntitySet Name="Beneficiario" EntityType="Self.Beneficiario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modulo" EntityType="Self.Modulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Municipio" EntityType="Self.Municipio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServicioFormacion" EntityType="Self.ServicioFormacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Beneficiario_MunicipioID" Association="Self.Beneficiario_MunicipioID">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Beneficiario" EntitySet="Beneficiario" />
+          </AssociationSet>
+          <AssociationSet Name="Beneficiario_UsuarioID" Association="Self.Beneficiario_UsuarioID">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Beneficiario" EntitySet="Beneficiario" />
+          </AssociationSet>
+          <AssociationSet Name="Empleados_MunicipioID" Association="Self.Empleados_MunicipioID">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Empleados" EntitySet="Empleados" />
+          </AssociationSet>
+          <AssociationSet Name="Municipio_DepartamentoID" Association="Self.Municipio_DepartamentoID">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Municipio" EntitySet="Municipio" />
+          </AssociationSet>
+          <AssociationSet Name="ServicioFormacion_ModuloID" Association="Self.ServicioFormacion_ModuloID">
+            <End Role="Modulo" EntitySet="Modulo" />
+            <End Role="ServicioFormacion" EntitySet="ServicioFormacion" />
+          </AssociationSet>
+          <AssociationSet Name="ServicioFormacion_MunicipioID" Association="Self.ServicioFormacion_MunicipioID">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="ServicioFormacion" EntitySet="ServicioFormacion" />
+          </AssociationSet>
+          <AssociationSet Name="ServicioFormacion_UsuarioID" Association="Self.ServicioFormacion_UsuarioID">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ServicioFormacion" EntitySet="ServicioFormacion" />
+          </AssociationSet>
+          <AssociationSet Name="Usuario_EmpleadoID" Association="Self.Usuario_EmpleadoID">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="USAIDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Beneficiario">
+          <Key>
+            <PropertyRef Name="BenficiarioID" />
+          </Key>
+          <Property Name="BenficiarioID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Documento" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartamentoID" Type="Int32" Nullable="false" />
+          <Property Name="MunicipioID" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Municipio" Relationship="Self.Beneficiario_MunicipioID" FromRole="Beneficiario" ToRole="Municipio" />
+          <NavigationProperty Name="Usuario" Relationship="Self.Beneficiario_UsuarioID" FromRole="Beneficiario" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="DepartamentoID" />
+          </Key>
+          <Property Name="DepartamentoID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Municipio" Relationship="Self.Municipio_DepartamentoID" FromRole="Departamento" ToRole="Municipio" />
+        </EntityType>
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="EmpleadoID" />
+          </Key>
+          <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Documento" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoDocumento" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumeroTelefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartamentoID" Type="Int32" Nullable="false" />
+          <Property Name="MunicipioID" Type="Int32" Nullable="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Municipio" Relationship="Self.Empleados_MunicipioID" FromRole="Empleados" ToRole="Municipio" />
+          <NavigationProperty Name="Usuario" Relationship="Self.Usuario_EmpleadoID" FromRole="Empleados" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Modulo">
+          <Key>
+            <PropertyRef Name="ModuloID" />
+          </Key>
+          <Property Name="ModuloID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ServicioFormacion" Relationship="Self.ServicioFormacion_ModuloID" FromRole="Modulo" ToRole="ServicioFormacion" />
+        </EntityType>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="MunicipioID" />
+            <PropertyRef Name="DepartamentoID" />
+          </Key>
+          <Property Name="MunicipioID" Type="Int32" Nullable="false" />
+          <Property Name="DepartamentoID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Beneficiario" Relationship="Self.Beneficiario_MunicipioID" FromRole="Municipio" ToRole="Beneficiario" />
+          <NavigationProperty Name="Departamento" Relationship="Self.Municipio_DepartamentoID" FromRole="Municipio" ToRole="Departamento" />
+          <NavigationProperty Name="Empleados" Relationship="Self.Empleados_MunicipioID" FromRole="Municipio" ToRole="Empleados" />
+          <NavigationProperty Name="ServicioFormacion" Relationship="Self.ServicioFormacion_MunicipioID" FromRole="Municipio" ToRole="ServicioFormacion" />
+        </EntityType>
+        <EntityType Name="ServicioFormacion">
+          <Key>
+            <PropertyRef Name="ServicioFormacionID" />
+          </Key>
+          <Property Name="ServicioFormacionID" Type="Int32" Nullable="false" />
+          <Property Name="ModuloID" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="DepartamentoID" Type="Int32" Nullable="false" />
+          <Property Name="MunicipioID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaFinal" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Modalidad" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Modulo" Relationship="Self.ServicioFormacion_ModuloID" FromRole="ServicioFormacion" ToRole="Modulo" />
+          <NavigationProperty Name="Municipio" Relationship="Self.ServicioFormacion_MunicipioID" FromRole="ServicioFormacion" ToRole="Municipio" />
+          <NavigationProperty Name="Usuario" Relationship="Self.ServicioFormacion_UsuarioID" FromRole="ServicioFormacion" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Acceso" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Token" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Beneficiario" Relationship="Self.Beneficiario_UsuarioID" FromRole="Usuario" ToRole="Beneficiario" />
+          <NavigationProperty Name="Empleados" Relationship="Self.Usuario_EmpleadoID" FromRole="Usuario" ToRole="Empleados" />
+          <NavigationProperty Name="ServicioFormacion" Relationship="Self.ServicioFormacion_UsuarioID" FromRole="Usuario" ToRole="ServicioFormacion" />
+        </EntityType>
+        <Association Name="Beneficiario_MunicipioID">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="Beneficiario" Type="Self.Beneficiario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="Beneficiario">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Beneficiario_UsuarioID">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Beneficiario" Type="Self.Beneficiario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="Beneficiario">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Municipio_DepartamentoID">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Empleados_MunicipioID">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="Empleados">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Usuario_EmpleadoID">
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="EmpleadoID" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="EmpleadoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServicioFormacion_ModuloID">
+          <End Role="Modulo" Type="Self.Modulo" Multiplicity="1" />
+          <End Role="ServicioFormacion" Type="Self.ServicioFormacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="ModuloID" />
+            </Principal>
+            <Dependent Role="ServicioFormacion">
+              <PropertyRef Name="ModuloID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServicioFormacion_MunicipioID">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="1" />
+          <End Role="ServicioFormacion" Type="Self.ServicioFormacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Principal>
+            <Dependent Role="ServicioFormacion">
+              <PropertyRef Name="MunicipioID" />
+              <PropertyRef Name="DepartamentoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ServicioFormacion_UsuarioID">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="ServicioFormacion" Type="Self.ServicioFormacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="UsuarioID" />
+            </Principal>
+            <Dependent Role="ServicioFormacion">
+              <PropertyRef Name="UsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="USAIDEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Beneficiario" EntityType="Self.Beneficiario" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" />
+          <EntitySet Name="Empleados" EntityType="Self.Empleados" />
+          <EntitySet Name="Modulo" EntityType="Self.Modulo" />
+          <EntitySet Name="Municipio" EntityType="Self.Municipio" />
+          <EntitySet Name="ServicioFormacion" EntityType="Self.ServicioFormacion" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="Beneficiario_MunicipioID" Association="Self.Beneficiario_MunicipioID">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Beneficiario" EntitySet="Beneficiario" />
+          </AssociationSet>
+          <AssociationSet Name="Beneficiario_UsuarioID" Association="Self.Beneficiario_UsuarioID">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Beneficiario" EntitySet="Beneficiario" />
+          </AssociationSet>
+          <AssociationSet Name="Municipio_DepartamentoID" Association="Self.Municipio_DepartamentoID">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Municipio" EntitySet="Municipio" />
+          </AssociationSet>
+          <AssociationSet Name="Empleados_MunicipioID" Association="Self.Empleados_MunicipioID">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Empleados" EntitySet="Empleados" />
+          </AssociationSet>
+          <AssociationSet Name="Usuario_EmpleadoID" Association="Self.Usuario_EmpleadoID">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="ServicioFormacion_ModuloID" Association="Self.ServicioFormacion_ModuloID">
+            <End Role="Modulo" EntitySet="Modulo" />
+            <End Role="ServicioFormacion" EntitySet="ServicioFormacion" />
+          </AssociationSet>
+          <AssociationSet Name="ServicioFormacion_MunicipioID" Association="Self.ServicioFormacion_MunicipioID">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="ServicioFormacion" EntitySet="ServicioFormacion" />
+          </AssociationSet>
+          <AssociationSet Name="ServicioFormacion_UsuarioID" Association="Self.ServicioFormacion_UsuarioID">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="ServicioFormacion" EntitySet="ServicioFormacion" />
+          </AssociationSet>
+          <FunctionImport Name="BeneficiarioAnio" ReturnType="Collection(USAIDModel.BeneficiarioAnio_Result)">
+            <Parameter Name="year" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BeneficiarioCiudad" ReturnType="Collection(USAIDModel.BeneficiarioCiudad_Result)" />
+          <FunctionImport Name="BeneficiarioSemestral" ReturnType="Collection(USAIDModel.BeneficiarioSemestral_Result)">
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="sem" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="BeneficiariosUsuario" ReturnType="Collection(USAIDModel.BeneficiariosUsuario_Result)">
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="month" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="psBeneficiarios" ReturnType="Collection(USAIDModel.psBeneficiarios_Result)" />
+          <FunctionImport Name="psEmpleados" ReturnType="Collection(USAIDModel.psEmpleados_Result)" />
+          <FunctionImport Name="psServicioFormacion" ReturnType="Collection(USAIDModel.psServicioFormacion_Result)" />
+          <FunctionImport Name="psUsuario" ReturnType="Collection(USAIDModel.psUsuario_Result)" />
+        </EntityContainer>
+        <ComplexType Name="BeneficiarioAnio_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="81" />
+          <Property Type="String" Name="Documento" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Municipio" Nullable="false" MaxLength="60" />
+        </ComplexType>
+        <ComplexType Name="BeneficiarioCiudad_Result">
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Ciudad" Nullable="false" MaxLength="60" />
+          <Property Type="Int32" Name="Total" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="BeneficiarioSemestral_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="81" />
+          <Property Type="String" Name="Documento" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Municipio" Nullable="false" MaxLength="60" />
+        </ComplexType>
+        <ComplexType Name="BeneficiariosUsuario_Result">
+          <Property Type="String" Name="Usuario" Nullable="false" MaxLength="60" />
+          <Property Type="Int32" Name="A" Nullable="true" />
+          <Property Type="Int32" Name="B" Nullable="true" />
+          <Property Type="Int32" Name="C" Nullable="true" />
+          <Property Type="Int32" Name="D" Nullable="true" />
+          <Property Type="Int32" Name="E" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="psBeneficiarios_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="81" />
+          <Property Type="String" Name="Documento" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Municipio" Nullable="false" MaxLength="60" />
+        </ComplexType>
+        <ComplexType Name="psEmpleados_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Identidad" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="NumeroTelefono" Nullable="false" MaxLength="25" />
+          <Property Type="DateTime" Name="Nacimiento" Nullable="false" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Municipio" Nullable="false" MaxLength="60" />
+        </ComplexType>
+        <ComplexType Name="psServicioFormacion_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Modulo" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Departamento" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Municipio" Nullable="false" MaxLength="60" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="false" />
+          <Property Type="DateTime" Name="FechaFinal" Nullable="false" />
+          <Property Type="String" Name="Instructor" Nullable="false" MaxLength="81" />
+          <Property Type="String" Name="Observaciones" Nullable="false" MaxLength="300" />
+        </ComplexType>
+        <ComplexType Name="psUsuario_Result">
+          <Property Type="String" Name="Empleado" Nullable="false" MaxLength="81" />
+          <Property Type="String" Name="NombreUsuario" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="CorreoElectronico" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="Cargo" Nullable="false" MaxLength="33" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="USAIDModelStoreContainer" CdmEntityContainer="USAIDEntities1">
+          <EntitySetMapping Name="Beneficiario">
+            <EntityTypeMapping TypeName="USAIDModel.Beneficiario">
+              <MappingFragment StoreEntitySet="Beneficiario">
+                <ScalarProperty Name="BenficiarioID" ColumnName="BenficiarioID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />
+                <ScalarProperty Name="MunicipioID" ColumnName="MunicipioID" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departamento">
+            <EntityTypeMapping TypeName="USAIDModel.Departamento">
+              <MappingFragment StoreEntitySet="Departamento">
+                <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleados">
+            <EntityTypeMapping TypeName="USAIDModel.Empleados">
+              <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+                <ScalarProperty Name="NumeroTelefono" ColumnName="NumeroTelefono" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />
+                <ScalarProperty Name="MunicipioID" ColumnName="MunicipioID" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modulo">
+            <EntityTypeMapping TypeName="USAIDModel.Modulo">
+              <MappingFragment StoreEntitySet="Modulo">
+                <ScalarProperty Name="ModuloID" ColumnName="ModuloID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Municipio">
+            <EntityTypeMapping TypeName="USAIDModel.Municipio">
+              <MappingFragment StoreEntitySet="Municipio">
+                <ScalarProperty Name="MunicipioID" ColumnName="MunicipioID" />
+                <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServicioFormacion">
+            <EntityTypeMapping TypeName="USAIDModel.ServicioFormacion">
+              <MappingFragment StoreEntitySet="ServicioFormacion">
+                <ScalarProperty Name="ServicioFormacionID" ColumnName="ServicioFormacionID" />
+                <ScalarProperty Name="ModuloID" ColumnName="ModuloID" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />
+                <ScalarProperty Name="MunicipioID" ColumnName="MunicipioID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFinal" ColumnName="FechaFinal" />
+                <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="USAIDModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Acceso" ColumnName="Acceso" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="BeneficiarioAnio" FunctionName="USAIDModel.Store.BeneficiarioAnio">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.BeneficiarioAnio_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BeneficiarioCiudad" FunctionName="USAIDModel.Store.BeneficiarioCiudad">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.BeneficiarioCiudad_Result">
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BeneficiarioSemestral" FunctionName="USAIDModel.Store.BeneficiarioSemestral">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.BeneficiarioSemestral_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BeneficiariosUsuario" FunctionName="USAIDModel.Store.BeneficiariosUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.BeneficiariosUsuario_Result">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="A" ColumnName="A" />
+                <ScalarProperty Name="B" ColumnName="B" />
+                <ScalarProperty Name="C" ColumnName="C" />
+                <ScalarProperty Name="D" ColumnName="D" />
+                <ScalarProperty Name="E" ColumnName="E" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="psBeneficiarios" FunctionName="USAIDModel.Store.psBeneficiarios">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.psBeneficiarios_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="psEmpleados" FunctionName="USAIDModel.Store.psEmpleados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.psEmpleados_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Identidad" ColumnName="Identidad" />
+                <ScalarProperty Name="NumeroTelefono" ColumnName="NumeroTelefono" />
+                <ScalarProperty Name="Nacimiento" ColumnName="Nacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="psServicioFormacion" FunctionName="USAIDModel.Store.psServicioFormacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.psServicioFormacion_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Municipio" ColumnName="Municipio" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFinal" ColumnName="FechaFinal" />
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="psUsuario" FunctionName="USAIDModel.Store.psUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="USAIDModel.psUsuario_Result">
+                <ScalarProperty Name="Empleado" ColumnName="Empleado" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

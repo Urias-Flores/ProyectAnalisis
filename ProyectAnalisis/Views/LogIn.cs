@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectAnalisis.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,7 +31,10 @@ namespace ProyectAnalisis.Views
 
         private void LogIn_Load(object sender, EventArgs e)
         {
-
+            Connection conec = new Connection();
+            if (conec.getConec() != null) {
+                
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)

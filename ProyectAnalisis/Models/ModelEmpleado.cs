@@ -8,5 +8,6 @@ namespace ProyectAnalisis.Models
 {
     internal class ModelEmpleado
     {
+
     }
 }

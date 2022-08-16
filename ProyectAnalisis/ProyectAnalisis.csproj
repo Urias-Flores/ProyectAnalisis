@@ -141,6 +141,12 @@
     <Reference Include="Costura, Version=3.3.3.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.3.3.3\lib\net40\Costura.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
@@ -164,6 +170,7 @@
       <HintPath>..\packages\System.CodeDom.6.0.0\lib\net461\System.CodeDom.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.ConfigurationManager, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Configuration.ConfigurationManager.6.0.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
@@ -229,6 +236,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -313,11 +321,78 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ComponentBeneficiario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\ComponentBeneficiario.Designer.cs">
+      <DependentUpon>ComponentBeneficiario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Components.cs" />
     <Compile Include="Controllers\ControllerBeneficiario.cs" />
     <Compile Include="Controllers\ControllerEmpleado.cs" />
     <Compile Include="Controllers\ControllerModulo.cs" />
     <Compile Include="Controllers\ControllerServicio1.cs" />
     <Compile Include="Controllers\ControllerUsuario.cs" />
+    <Compile Include="Entity\Beneficiario.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BeneficiarioAnio_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BeneficiarioCiudad_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BeneficiarioSemestral_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\BeneficiariosUsuario_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Departamento.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Empleados.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Modulo.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Municipio.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\psBeneficiarios_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\psEmpleados_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\psServicioFormacion_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\psUsuario_Result.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ServicioFormacion.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\USAIDEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>USAIDEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\USAIDEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\USAIDEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>USAIDEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Usuario.cs">
+      <DependentUpon>USAIDEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\ModelBeneficiario.cs" />
     <Compile Include="Models\ModelEmpleado.cs" />
@@ -373,7 +448,13 @@
     <Compile Include="Views\Usuarios.Designer.cs">
       <DependentUpon>Usuarios.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Components\ComponentBeneficiario.resx">
+      <DependentUpon>ComponentBeneficiario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Reports\Informe\ReportBeneficiario.rdlc" />
+    <EmbeddedResource Include="Reports\Informe\ReportEmpleado.rdlc" />
+    <EmbeddedResource Include="Reports\Informe\ReportUsuario.rdlc" />
     <EmbeddedResource Include="Views\Beneficiarios.resx">
       <DependentUpon>Beneficiarios.cs</DependentUpon>
     </EmbeddedResource>
@@ -404,6 +485,13 @@
     <EmbeddedResource Include="Views\Usuarios.resx">
       <DependentUpon>Usuarios.cs</DependentUpon>
     </EmbeddedResource>
+    <EntityDeploy Include="Entity\USAIDEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>USAIDEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entity\USAIDEntities.edmx.diagram">
+      <DependentUpon>USAIDEntities.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -431,6 +519,22 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Icons\" />
+    <Folder Include="Reports\Reporte\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entity\USAIDEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>USAIDEntities.edmx</DependentUpon>
+      <LastGenOutput>USAIDEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity\USAIDEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>USAIDEntities.edmx</DependentUpon>
+      <LastGenOutput>USAIDEntities.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.4.0.2\build\Fody.targets" Condition="Exists('..\packages\Fody.4.0.2\build\Fody.targets')" />

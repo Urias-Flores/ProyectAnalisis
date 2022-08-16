@@ -98,5 +98,10 @@ namespace ProyectAnalisis
             LoadForm(new Reportes());
             HideSubMenu();
         }
+
+        private void Menu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
